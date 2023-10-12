@@ -5,7 +5,9 @@ class LookupFreeQuantizer:
         self.vocab_size = vocab_size
 
     def sign(self, z: torch.Tensor):
-        return torch.sign(z)
+        q_z = torch.sign(z)
+        q_z[q_z == 0] = -1
+        return q_z
 
     def token_index(self, q_z: torch.Tensor):
         indices = (torch.arange(q_z.size(-1), dtype=torch.float32)).to(q_z.device)
